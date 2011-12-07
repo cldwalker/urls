@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'urls/runner'
+Urls::Runner.start
