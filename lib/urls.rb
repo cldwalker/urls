@@ -11,9 +11,14 @@ module Urls
     DataMapper.setup(:default, adapter: 'yaml', path: home)
     DataMapper.finalize
     DataMapper.auto_upgrade!
+    ENV['TAG_MODEL'] = 'urls'
   end
 
-  def self.tag(url, tags)
-    system({'TAG_MODEL' => 'urls'}, 'tag', 'add', url, '--tags', *tags)
+  def self.add_tag(url, tags)
+    tag('add', url, '--tags', *tags)
+  end
+
+  def self.tag(*cmds)
+    system('tag', *cmds)
   end
 end

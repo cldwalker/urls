@@ -8,9 +8,13 @@ module Urls
       super
     end
 
+    method_option :tags, type: 'array', desc: 'tags for url', aliases: '-t'
     desc "add URL *DESC -t *TAGS", "adds url with optional description and tags"
     def add(url, *desc)
       Url.create(name: url, desc: desc.join(' '))
+      if options[:tags]
+        Urls.add_tag(url, options[:tags])
+      end
     end
 
     desc "rm URL", 'removes url'
@@ -23,9 +27,10 @@ module Urls
       end
     end
 
-    desc "list", "list urls"
-    def list
-      puts Url.all.map(&:name)
+    desc "list [TAG]", "list all urls or by a tag"
+    def list(tag = nil)
+      urls = tag ? `tag list #{tag}`.split("\n") : Url.all.map(&:name)
+      puts urls
     end
   end
 end
