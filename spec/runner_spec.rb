@@ -62,4 +62,13 @@ describe 'Urls::Runner' do
       stdout.must_equal "http://dodo.com"
     end
   end
+
+  describe "$URLS_RC" do
+    it 'loads when defined' do
+      with_rc "puts 'RC in the house'" do
+        urls
+        stdout.must_match /RC in the house/
+      end
+    end
+  end
 end

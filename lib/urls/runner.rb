@@ -1,5 +1,6 @@
 require 'urls'
 require 'boson/runner'
+ENV['BOSONRC'] = ENV['URLS_RC'] || '~/.urlsrc'
 
 module Urls
   class Runner < Boson::Runner
