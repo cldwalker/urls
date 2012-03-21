@@ -9,7 +9,10 @@ describe 'Urls::Runner' do
     super.chomp
   end
 
-  before { FileUtils.rm_rf(ENV['URLS_HOME']) }
+  before do
+    FileUtils.rm_rf(ENV['URLS_HOME'])
+    FileUtils.rm_rf(ENV['TAG_HOME'])
+  end
 
   describe 'default help' do
     it 'prints help with no arguments' do
@@ -29,6 +32,12 @@ describe 'Urls::Runner' do
       stdout.must_equal "urls: Added http://wtf.com"
     end
 
+    it 'adds a url with a tag' do
+      urls 'add http://dodo.com -t bird'
+      urls 'list bird'
+      stdout.must_equal "http://dodo.com"
+    end
+
     it 'deletes a url' do
       urls 'add http://wtf.com'
       urls 'rm http://wtf.com'
@@ -45,6 +54,12 @@ describe 'Urls::Runner' do
       urls 'add http://wtf.com'
       urls 'list'
       stdout.must_equal "http://wtf.com"
+    end
+
+    it 'lists a url by a tag' do
+      urls 'add http://dodo.com -t bird'
+      urls 'list bird'
+      stdout.must_equal "http://dodo.com"
     end
   end
 end
