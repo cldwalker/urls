@@ -14,12 +14,12 @@ describe 'Urls::Runner' do
   describe 'default help' do
     it 'prints help with no arguments' do
       urls
-      stdout.must_match /^Tasks/
+      stdout.must_match /^Usage: urls/
     end
 
     it 'prints help with --help' do
       urls '--help'
-      stdout.must_match /^Tasks/
+      stdout.must_match /^Usage: urls/
     end
   end
 

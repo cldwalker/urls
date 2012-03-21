@@ -1,16 +1,17 @@
 require 'urls'
-require 'thor'
+require 'boson/runner'
 
 module Urls
-  class Runner < Thor
+  class Runner < Boson::Runner
     def self.start(*)
       Urls.setup
       super
     end
 
-    method_option :tags, type: 'array', desc: 'tags for url', aliases: '-t'
-    desc "add URL *DESC -t *TAGS", "adds url with optional description and tags"
+    option :tags, type: 'array', desc: 'tags for url'
+    desc "adds url with optional description and tags"
     def add(url, *desc)
+      options = desc[-1].is_a?(Hash) ? desc.pop : {}
       Url.create!(name: url, desc: desc.join(' '))
       if options[:tags]
         Urls.add_tag(url, options[:tags])
@@ -18,17 +19,17 @@ module Urls
       say "Added #{url}"
     end
 
-    desc "rm URL", 'removes url'
-    def rm(name)
-      if url = Url.first(name: name)
-        url.destroy
-        say "Deleted #{name}"
+    desc 'removes url'
+    def rm(url)
+      if u = Url.first(name: url)
+        u.destroy
+        say "Deleted #{url}"
       else
-        abort "urls: #{name} not found"
+        abort "urls: #{url} not found"
       end
     end
 
-    desc "list [TAG]", "list all urls or by a tag"
+    desc "list all urls or by a tag"
     def list(tag = nil)
       urls = tag ? `tag list #{tag}`.split("\n") : Url.all.map(&:name)
       puts urls
