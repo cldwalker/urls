@@ -11,19 +11,20 @@ module Urls
     method_option :tags, type: 'array', desc: 'tags for url', aliases: '-t'
     desc "add URL *DESC -t *TAGS", "adds url with optional description and tags"
     def add(url, *desc)
-      Url.create(name: url, desc: desc.join(' '))
+      Url.create!(name: url, desc: desc.join(' '))
       if options[:tags]
         Urls.add_tag(url, options[:tags])
       end
+      say "Added #{url}"
     end
 
     desc "rm URL", 'removes url'
     def rm(name)
       if url = Url.first(name: name)
         url.destroy
-        puts "#{name} removed"
+        say "Deleted #{name}"
       else
-        puts "#{name} not found"
+        abort "urls: #{name} not found"
       end
     end
 
@@ -31,6 +32,12 @@ module Urls
     def list(tag = nil)
       urls = tag ? `tag list #{tag}`.split("\n") : Url.all.map(&:name)
       puts urls
+    end
+
+    private
+
+    def say(*args)
+      puts *args.map {|e| "urls: #{e}" }
     end
   end
 end
