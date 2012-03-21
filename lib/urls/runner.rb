@@ -14,11 +14,16 @@ module Urls
     desc "adds url with optional description and tags"
     def add(url, *desc)
       options = desc[-1].is_a?(Hash) ? desc.pop : {}
-      Url.create!(name: url, desc: desc.join(' '))
-      if options[:tags]
-        Urls.add_tag(url, options[:tags])
+
+      if Url.first(name: url)
+        abort "urls: #{url} already exists"
+      else
+        Url.create!(name: url, desc: desc.join(' '))
+        if options[:tags]
+          Urls.add_tag(url, options[:tags])
+        end
+        say "Added #{url}"
       end
-      say "Added #{url}"
     end
 
     desc 'removes url'

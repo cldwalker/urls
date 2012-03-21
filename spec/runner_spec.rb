@@ -38,6 +38,12 @@ describe 'Urls::Runner' do
       stdout.must_equal "http://dodo.com"
     end
 
+    it 'prints error for double submission' do
+      urls 'add http://wtf.com'
+      urls 'add http://wtf.com'
+      stderr.must_equal "urls: http://wtf.com already exists"
+    end
+
     it 'deletes a url' do
       urls 'add http://wtf.com'
       urls 'rm http://wtf.com'
