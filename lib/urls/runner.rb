@@ -10,7 +10,7 @@ module Urls
       super
     end
 
-    option :tags, type: 'array', desc: 'tags for url'
+    option :tags, type: :array, desc: 'tags for url'
     desc "adds url with optional description and tags"
     def add(url, *desc)
       options = desc[-1].is_a?(Hash) ? desc.pop : {}
