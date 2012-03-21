@@ -49,6 +49,12 @@ describe 'Urls::Runner' do
         urls 'add ""'
         stderr.must_equal "urls: Failed to save url - Name must not be blank"
       end
+
+      it 'automatically prepends http:// if not given' do
+        urls 'add google.com'
+        urls 'list'
+        stdout.must_equal "http://google.com"
+      end
     end
 
     it 'deletes a url' do

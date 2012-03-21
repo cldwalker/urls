@@ -14,4 +14,8 @@ class Url
   property :updated_at, DateTime
 
   validates_uniqueness_of :name
+
+  before :save do
+    self.name = "http://#{name}" if !name.include?('://')
+  end
 end
