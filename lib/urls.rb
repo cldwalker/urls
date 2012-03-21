@@ -1,4 +1,5 @@
 require 'urls/url'
+require 'urls/version'
 
 module Urls
   def self.home
