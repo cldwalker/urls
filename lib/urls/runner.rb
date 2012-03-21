@@ -4,7 +4,8 @@ ENV['BOSONRC'] = ENV['URLS_RC'] || '~/.urlsrc'
 
 module Urls
   class Runner < Boson::Runner
-    def self.start(*)
+    # hook into init since it's after loading rc but before command execution
+    def self.init(*)
       Urls.setup
       super
     end

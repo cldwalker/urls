@@ -70,5 +70,12 @@ describe 'Urls::Runner' do
         stdout.must_match /RC in the house/
       end
     end
+
+    it 'can define a custom adapter' do
+      with_rc "Urls.adapter = 'sqlite'" do
+        urls
+        stderr.must_match /cannot load.*dm-sqlite-adapter/
+      end
+    end
   end
 end
