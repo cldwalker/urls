@@ -14,15 +14,15 @@ module Urls
     desc "adds url with optional description and tags"
     def add(url, *desc)
       options = desc[-1].is_a?(Hash) ? desc.pop : {}
+      abort "urls: #{url} already exists" if Url.first(name: url)
 
-      if Url.first(name: url)
-        abort "urls: #{url} already exists"
-      else
-        Url.create!(name: url, desc: desc.join(' '))
+      if (obj = Url.create(name: url, desc: desc.join(' '))).saved?
         if options[:tags]
           Urls.add_tag(url, options[:tags])
         end
         say "Added #{url}"
+      else
+        abort "urls: Failed to save url - #{obj.errors.full_messages.join(', ')}"
       end
     end
 

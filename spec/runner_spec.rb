@@ -27,21 +27,28 @@ describe 'Urls::Runner' do
   end
 
   describe 'commands' do
-    it 'adds a url' do
-      urls 'add http://wtf.com'
-      stdout.must_equal "urls: Added http://wtf.com"
-    end
+    describe 'add' do
+      it 'adds a url' do
+        urls 'add http://wtf.com'
+        stdout.must_equal "urls: Added http://wtf.com"
+      end
 
-    it 'adds a url with a tag' do
-      urls 'add http://dodo.com -t bird'
-      urls 'list bird'
-      stdout.must_equal "http://dodo.com"
-    end
+      it 'adds a url with a tag' do
+        urls 'add http://dodo.com -t bird'
+        urls 'list bird'
+        stdout.must_equal "http://dodo.com"
+      end
 
-    it 'prints error for double submission' do
-      urls 'add http://wtf.com'
-      urls 'add http://wtf.com'
-      stderr.must_equal "urls: http://wtf.com already exists"
+      it 'prints error for double submission' do
+        urls 'add http://wtf.com'
+        urls 'add http://wtf.com'
+        stderr.must_equal "urls: http://wtf.com already exists"
+      end
+
+      it 'prints error when validation fails' do
+        urls 'add ""'
+        stderr.must_equal "urls: Failed to save url - Name must not be blank"
+      end
     end
 
     it 'deletes a url' do
