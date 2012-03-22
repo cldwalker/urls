@@ -80,6 +80,25 @@ describe 'Urls::Runner' do
       urls 'list bird'
       stdout.must_equal "http://dodo.com"
     end
+
+    it 'edits a url' do
+      ENV['EDITOR'] = 'echo'
+      urls 'edit'
+      stdout.must_equal Urls.home + '/urls.yml'
+    end
+
+    it 'edits a url' do
+      ENV['EDITOR'] = 'echo'
+      urls 'edit'
+      stdout.must_equal Urls.home + '/urls.yml'
+    end
+
+    it "doesn't edit a url if a non-yaml adapter" do
+      with_rc "Urls.adapter = 'in_memory'" do
+        urls 'edit'
+        stderr.must_equal 'urls: edit only works with yaml adapter'
+      end
+    end
   end
 
   describe "$URLS_RC" do

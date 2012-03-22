@@ -36,6 +36,13 @@ module Urls
       end
     end
 
+    desc 'edits urls in a file'
+    def edit
+      abort 'urls: edit only works with yaml adapter' if Urls.adapter != 'yaml'
+      file = Urls.home + '/urls.yml'
+      system(ENV['EDITOR'] || 'vim', file)
+    end
+
     desc "list all urls or by a tag"
     def list(tag = nil)
       urls = tag ? `tag list #{tag}`.split("\n") : Url.all.map(&:name)
