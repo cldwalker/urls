@@ -93,10 +93,10 @@ describe 'Urls::Runner' do
       stdout.must_equal Urls.home + '/urls.yml'
     end
 
-    it "doesn't edit a url if a non-yaml adapter" do
-      with_rc "Urls.adapter = 'in_memory'" do
+    it "doesn't edit a url if a non-yaml db" do
+      with_rc "Urls.db = {adapter: 'in_memory'}" do
         urls 'edit'
-        stderr.must_equal 'urls: edit only works with yaml adapter'
+        stderr.must_equal 'urls: edit only works with yaml db'
       end
     end
   end
@@ -109,8 +109,8 @@ describe 'Urls::Runner' do
       end
     end
 
-    it 'can define a custom adapter' do
-      with_rc "Urls.adapter = 'sqlite'" do
+    it 'can define a custom db' do
+      with_rc "Urls.db = {adapter: 'sqlite'}" do
         urls
         stderr.must_match /cannot load.*dm-sqlite-adapter/
       end

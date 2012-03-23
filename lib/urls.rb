@@ -8,12 +8,12 @@ module Urls
     end
   end
 
-  # Adapter for datamapper. defaults to yaml
-  class << self; attr_accessor :adapter; end
+  # database for datamapper. Can be a uri string or a hash of options
+  class << self; attr_accessor :db; end
 
   def self.setup
-    self.adapter ||= 'yaml'
-    DataMapper.setup(:default, adapter: adapter, path: home)
+    self.db ||= { adapter: 'yaml', path: home }
+    DataMapper.setup(:default, db)
     DataMapper.finalize
     DataMapper.auto_upgrade!
     ENV['TAG_MODEL'] = 'urls'

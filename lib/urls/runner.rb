@@ -38,7 +38,9 @@ module Urls
 
     desc 'edits urls in a file'
     def edit
-      abort 'urls: edit only works with yaml adapter' if Urls.adapter != 'yaml'
+      unless DataMapper::Repository.adapters[:default].options['adapter'] == 'yaml'
+        abort 'urls: edit only works with yaml db'
+      end
       file = Urls.home + '/urls.yml'
       system(ENV['EDITOR'] || 'vim', file)
     end
