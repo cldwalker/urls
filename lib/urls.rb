@@ -24,6 +24,12 @@ module Urls
   end
 
   def self.tag(*cmds)
-    system('tag', *cmds)
+    options = cmds[-1].is_a?(Hash) ? cmds.pop : {}
+    ENV['BOSONRC'] = '' # don't want urlsrc to pass as tagrc
+    if options[:capture]
+      `tag #{cmds.join(' ')}`
+    else
+      system('tag', *cmds)
+    end
   end
 end

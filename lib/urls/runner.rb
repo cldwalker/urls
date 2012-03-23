@@ -47,7 +47,8 @@ module Urls
 
     desc "list all urls or by a tag"
     def list(tag = nil)
-      urls = tag ? `tag list #{tag}`.split("\n") : Url.all.map(&:name)
+      urls = tag ? Urls.tag('list', tag, capture: true).split("\n") :
+        Url.all.map(&:name)
       puts urls
     end
 
