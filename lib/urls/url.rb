@@ -4,6 +4,9 @@ require 'dm-migrations'
 require 'dm-timestamps'
 require 'dm-validations'
 
+# set default string length
+DataMapper::Property::String.length(255)
+
 class Url
   include DataMapper::Resource
 
