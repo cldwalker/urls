@@ -43,10 +43,16 @@ describe 'Urls::Runner' do
         stdout.must_equal "http://dodo.com"
       end
 
-      it 'prints error for double submission' do
+      it 'prints error for redundant submission' do
         urls 'add http://wtf.com'
         urls 'add http://wtf.com'
         stderr.must_equal "urls: http://wtf.com already exists"
+      end
+
+      it 'prints error for redundant submission without http' do
+        urls 'add http://wtf.com'
+        urls 'add wtf.com'
+        stderr.must_equal "urls: wtf.com already exists"
       end
 
       it 'prints error when validation fails' do
@@ -66,6 +72,13 @@ describe 'Urls::Runner' do
       urls 'rm http://wtf.com'
 
       stdout.must_equal "urls: Deleted http://wtf.com"
+    end
+
+    it 'deletes a url without specifying http' do
+      urls 'add http://wtf.com'
+      urls 'rm wtf.com'
+
+      stdout.must_equal "urls: Deleted wtf.com"
     end
 
     it 'prints an error when deleting a nonexistant url' do

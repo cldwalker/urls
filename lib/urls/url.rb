@@ -18,7 +18,11 @@ class Url
 
   validates_uniqueness_of :name
 
+  def self.urlify(url)
+    url.include?('://') ? url : "http://#{url}"
+  end
+
   before :save do
-    self.name = "http://#{name}" if !name.include?('://')
+    self.name = self.class.urlify(name)
   end
 end

@@ -15,7 +15,7 @@ module Urls
     desc "adds url with optional description and tags"
     def add(url, *desc)
       options = desc[-1].is_a?(Hash) ? desc.pop : {}
-      abort "urls: #{url} already exists" if Url.first(name: url)
+      abort "urls: #{url} already exists" if Url.first(name: Url.urlify(url))
 
       if (obj = Url.create(name: url, desc: desc.join(' '))).saved?
         if options[:tags]
@@ -29,7 +29,7 @@ module Urls
 
     desc 'removes url'
     def rm(url)
-      if u = Url.first(name: url)
+      if u = Url.first(name: Url.urlify(url))
         u.destroy
         say "Deleted #{url}"
       else
