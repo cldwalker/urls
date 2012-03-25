@@ -9,6 +9,10 @@ describe 'Urls::Runner' do
     super.chomp
   end
 
+  def list_urls(arg=nil)
+    urls "list #{arg} --simple"
+  end
+
   before do
     FileUtils.rm_rf(ENV['URLS_HOME'])
     FileUtils.rm_rf(ENV['TAG_HOME'])
@@ -35,7 +39,7 @@ describe 'Urls::Runner' do
 
       it 'adds a url with a tag' do
         urls 'add http://dodo.com -t bird'
-        urls 'list bird'
+        list_urls('bird')
         stdout.must_equal "http://dodo.com"
       end
 
@@ -52,7 +56,7 @@ describe 'Urls::Runner' do
 
       it 'automatically prepends http:// if not given' do
         urls 'add google.com'
-        urls 'list'
+        list_urls
         stdout.must_equal "http://google.com"
       end
     end
@@ -70,15 +74,29 @@ describe 'Urls::Runner' do
     end
 
     it 'lists a url' do
-      urls 'add http://wtf.com'
+      urls 'add http://wtf.com some desc'
       urls 'list'
-      stdout.must_equal "http://wtf.com"
+      stdout.must_equal <<-STR.chomp.gsub(/^\s*/, '')
+        +----------------+-----------+
+        | name           | desc      |
+        +----------------+-----------+
+        | http://wtf.com | some desc |
+        +----------------+-----------+
+        1 row in set
+      STR
     end
 
     it 'lists a url by a tag' do
       urls 'add http://dodo.com -t bird'
       urls 'list bird'
-      stdout.must_equal "http://dodo.com"
+      stdout.must_equal <<-STR.chomp.gsub(/^\s*/, '')
+        +-----------------+------+
+        | name            | desc |
+        +-----------------+------+
+        | http://dodo.com |      |
+        +-----------------+------+
+        1 row in set
+      STR
     end
 
     it 'edits a url' do

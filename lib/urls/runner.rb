@@ -1,5 +1,6 @@
 require 'urls'
 require 'boson/runner'
+require 'hirb'
 ENV['BOSONRC'] = ENV['URLS_RC'] || '~/.urlsrc'
 
 module Urls
@@ -45,14 +46,27 @@ module Urls
       system(ENV['EDITOR'] || 'vim', file)
     end
 
+    option :tab, type: :boolean, desc: 'print tab-delimited table'
+    option :fields, type: :array, default: [:name, :desc], values: [:name, :desc],
+      desc: 'Fields to display'
+    option :simple, type:  :boolean, desc: 'only lists urls'
     desc "list all urls or by a tag"
-    def list(tag = nil)
-      urls = tag ? Urls.tag('list', tag, capture: true).split("\n") :
-        Url.all.map(&:name)
-      puts urls
+    def list(tag=nil, options={})
+      if options.delete(:simple)
+        options.update headers: false, fields: [:name], tab: true
+      end
+
+      query = {}
+      query[:name] = Urls.tag('list', tag, capture: true).split("\n") if tag
+      urls = Url.all query
+      puts table(urls, options)
     end
 
     private
+
+    def table(rows, options={})
+      Hirb::Helpers::AutoTable.render(rows, options)
+    end
 
     def say(*args)
       puts *args.map {|e| "urls: #{e}" }

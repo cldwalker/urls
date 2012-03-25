@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.executables = %w(urls)
   s.add_dependency 'boson', '~> 1.2'
+  s.add_dependency 'hirb'
   s.add_dependency 'dm-core'
   s.add_dependency 'dm-yaml-adapter'
   s.add_dependency 'dm-migrations'
