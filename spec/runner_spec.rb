@@ -113,7 +113,11 @@ describe 'Urls::Runner' do
     end
 
     it 'lists a url and opens it' do
-      skip 'figure out how'
+      skip 'how?'
+    end
+
+    it 'lists a url and copies it' do
+      skip 'how?'
     end
 
     it 'edits a url' do

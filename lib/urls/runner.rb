@@ -51,6 +51,7 @@ module Urls
       desc: 'Fields to display'
     option :simple, type: :boolean, desc: 'only lists urls'
     option :open, type: :boolean, desc: 'open in browser'
+    option :copy, type: :boolean, desc: 'copy to clipboard'
     desc "list all urls or by a tag"
     def list(tag=nil, options={})
       if options.delete(:simple)
@@ -63,7 +64,12 @@ module Urls
 
       Hirb.enable
       if options[:open]
-        menu urls.map(&:name), Urls.browser
+        choices = menu urls.map(&:name)
+        cmds = Urls.browser.split(/\s+/)
+        choices.each {|u| system(*cmds, u) }
+      elsif options[:copy]
+        choices = menu urls.map(&:name)
+        Urls.copy choices
       else
         puts table(urls, options)
       end
@@ -71,10 +77,8 @@ module Urls
 
     private
 
-    def menu(choices, cmd)
-      choices = Hirb::Menu.render(choices)
-      cmds = cmd.split(/\s+/)
-      choices.each {|u| system(*cmds, u) }
+    def menu(arr)
+      Hirb::Menu.render(arr)
     end
 
     def table(rows, options={})

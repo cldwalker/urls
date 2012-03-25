@@ -38,4 +38,12 @@ module Urls
       system('tag', *cmds)
     end
   end
+
+  module API
+    # copy url(s) to clipboard, default uses osx
+    def copy(urls)
+      system(%[echo "#{urls.join("\n")}" | pbcopy])
+    end
+  end
+  extend API
 end
