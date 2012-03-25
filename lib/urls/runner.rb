@@ -49,7 +49,8 @@ module Urls
     option :tab, type: :boolean, desc: 'print tab-delimited table'
     option :fields, type: :array, default: [:name, :desc], values: [:name, :desc],
       desc: 'Fields to display'
-    option :simple, type:  :boolean, desc: 'only lists urls'
+    option :simple, type: :boolean, desc: 'only lists urls'
+    option :open, type: :boolean, desc: 'open in browser'
     desc "list all urls or by a tag"
     def list(tag=nil, options={})
       if options.delete(:simple)
@@ -59,10 +60,22 @@ module Urls
       query = {}
       query[:name] = Urls.tag('list', tag, capture: true).split("\n") if tag
       urls = Url.all query
-      puts table(urls, options)
+
+      Hirb.enable
+      if options[:open]
+        menu urls.map(&:name), Urls.browser
+      else
+        puts table(urls, options)
+      end
     end
 
     private
+
+    def menu(choices, cmd)
+      choices = Hirb::Menu.render(choices)
+      cmds = cmd.split(/\s+/)
+      choices.each {|u| system(*cmds, u) }
+    end
 
     def table(rows, options={})
       Hirb::Helpers::AutoTable.render(rows, options)

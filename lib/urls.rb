@@ -8,8 +8,14 @@ module Urls
     end
   end
 
-  # database for datamapper. Can be a uri string or a hash of options
-  class << self; attr_accessor :db; end
+  class << self
+    # database for datamapper. Can be a uri string or a hash of options
+    attr_accessor :db
+    # command to open urls in browser
+    attr_accessor :browser
+  end
+
+  self.browser = 'open'
 
   def self.setup
     self.db ||= { adapter: 'yaml', path: home }

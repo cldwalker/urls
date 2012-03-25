@@ -112,6 +112,10 @@ describe 'Urls::Runner' do
       STR
     end
 
+    it 'lists a url and opens it' do
+      skip 'figure out how'
+    end
+
     it 'edits a url' do
       ENV['EDITOR'] = 'echo'
       urls 'edit'
