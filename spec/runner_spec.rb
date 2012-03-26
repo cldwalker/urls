@@ -39,7 +39,7 @@ describe 'Urls::Runner' do
 
       it 'adds a url with a tag' do
         urls 'add http://dodo.com -t bird'
-        list_urls('bird')
+        list_urls('bird -t')
         stdout.must_equal "http://dodo.com"
       end
 
@@ -86,38 +86,66 @@ describe 'Urls::Runner' do
       stderr.must_equal "urls: blah not found"
     end
 
-    it 'lists a url' do
-      urls 'add http://wtf.com some desc'
-      urls 'list'
-      stdout.must_equal <<-STR.chomp.gsub(/^\s*/, '')
-        +----------------+-----------+
-        | name           | desc      |
-        +----------------+-----------+
-        | http://wtf.com | some desc |
-        +----------------+-----------+
-        1 row in set
-      STR
-    end
+    describe 'list' do
+      it 'lists a url with no args' do
+        urls 'add http://wtf.com some desc'
+        urls 'list'
+        stdout.must_equal <<-STR.unindent
+          +----------------+-----------+
+          | name           | desc      |
+          +----------------+-----------+
+          | http://wtf.com | some desc |
+          +----------------+-----------+
+          1 row in set
+        STR
+      end
 
-    it 'lists a url by a tag' do
-      urls 'add http://dodo.com -t bird'
-      urls 'list bird'
-      stdout.must_equal <<-STR.chomp.gsub(/^\s*/, '')
-        +-----------------+------+
-        | name            | desc |
-        +-----------------+------+
-        | http://dodo.com |      |
-        +-----------------+------+
-        1 row in set
-      STR
-    end
+      it 'lists a url by name' do
+        urls 'add http://wtf.com some desc'
+        urls 'list wtf'
+        stdout.must_equal <<-STR.unindent
+          +----------------+-----------+
+          | name           | desc      |
+          +----------------+-----------+
+          | http://wtf.com | some desc |
+          +----------------+-----------+
+          1 row in set
+        STR
+      end
 
-    it 'lists a url and opens it' do
-      skip 'how?'
-    end
+      it 'lists a url by desc' do
+        urls 'add http://wtf.com some desc'
+        urls 'list some'
+        stdout.must_equal <<-STR.unindent
+          +----------------+-----------+
+          | name           | desc      |
+          +----------------+-----------+
+          | http://wtf.com | some desc |
+          +----------------+-----------+
+          1 row in set
+        STR
+      end
 
-    it 'lists a url and copies it' do
-      skip 'how?'
+      it 'lists a url by a tag' do
+        urls 'add http://dodo.com -t bird'
+        urls 'list bird -t'
+        stdout.must_equal <<-STR.unindent
+          +-----------------+------+
+          | name            | desc |
+          +-----------------+------+
+          | http://dodo.com |      |
+          +-----------------+------+
+          1 row in set
+        STR
+      end
+
+      it 'lists a url and opens it' do
+        skip 'how?'
+      end
+
+      it 'lists a url and copies it' do
+        skip 'how?'
+      end
     end
 
     it 'edits a url' do

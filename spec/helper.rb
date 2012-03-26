@@ -27,6 +27,13 @@ class MiniTest::Unit::TestCase
   include TestHelpers
 end
 
+module StringExt
+  def unindent
+    chomp.gsub(/^\s*/, '')
+  end
+end
+String.send :include, StringExt
+
 MiniTest::Unit.after_tests do
   FileUtils.rm_rf(ENV['URLS_HOME'])
   FileUtils.rm_rf(ENV['TAG_HOME'])

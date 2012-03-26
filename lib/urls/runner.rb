@@ -46,21 +46,27 @@ module Urls
       system(ENV['EDITOR'] || 'vim', file)
     end
 
-    option :tab, type: :boolean, desc: 'print tab-delimited table'
+    option :tab, type: :boolean, desc: 'print tab-delimited table', alias: 'T'
     option :fields, type: :array, default: [:name, :desc], values: [:name, :desc],
       desc: 'Fields to display'
     option :simple, type: :boolean, desc: 'only lists urls'
     option :open, type: :boolean, desc: 'open in browser'
     option :copy, type: :boolean, desc: 'copy to clipboard'
+    option :tag, type: :boolean, desc: 'query by tag', alias: 't'
     desc "list all urls or by a tag"
-    def list(tag=nil, options={})
+    def list(query=nil, options={})
       if options.delete(:simple)
         options.update headers: false, fields: [:name], tab: true
       end
 
-      query = {}
-      query[:name] = Urls.tag('list', tag, capture: true).split("\n") if tag
-      urls = Url.all query
+      urls = if options[:tag]
+        names = Urls.tag('list', query, capture: true).split("\n")
+        Url.all name: names
+      elsif query
+        Url.all(desc: /#{query}/) | Url.all(name: /#{query}/)
+      else
+        Url.all
+      end
 
       Hirb.enable
       if options[:open]
