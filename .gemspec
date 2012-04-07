@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = "gabriel.horner@gmail.com"
   s.homepage    = "http://github.com/cldwalker/urls"
   s.summary =  "urls - bookmarking from the commandline or web"
-  s.description = "TODO"
+  s.description = "urls lets you bookmark. the end"
   s.required_rubygems_version = ">= 1.3.6"
   s.executables = %w(urls)
   s.add_dependency 'boson', '~> 1.2'
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'bahia', '~> 0.5'
   s.add_development_dependency 'rake', '~> 0.9.2'
   s.add_development_dependency 'tag', '~> 0.3.0'
-  s.files = Dir.glob(%w[{lib,spec}/**/*.rb bin/* [A-Z]*.{txt,rdoc,md} ext/**/*.{rb,c} **/deps.rip]) + %w{Rakefile .gemspec .travis.yml}
+  s.files = Dir.glob(%w[{lib,spec}/**/*.rb bin/* [A-Z]*.{txt,rdoc,md} ext/**/*.{rb,c} **/deps.rip]) + Dir.glob(%w{Rakefile .gemspec .travis.yml})
   s.extra_rdoc_files = ["README.md", "LICENSE.txt"]
   s.license = 'MIT'
 end
