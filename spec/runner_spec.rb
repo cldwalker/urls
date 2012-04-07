@@ -166,6 +166,12 @@ describe 'Urls::Runner' do
         stderr.must_equal 'urls: edit only works with yaml db'
       end
     end
+
+    it "lists tags" do
+      urls 'add http://dodo.com -t bird'
+      urls 'tags'
+      stdout.must_equal 'bird'
+    end
   end
 
   describe "$URLS_RC" do

@@ -81,6 +81,11 @@ module Urls
       end
     end
 
+    desc 'List tags'
+    def tags
+      Urls.tag('tags')
+    end
+
     private
 
     def menu(arr)
