@@ -1,5 +1,5 @@
 ## Description
-urls is a commandline bookmarking app that aims to make bookmarking fast, easy and customizable.
+urls is a commandline bookmarking app that aims to make bookmarking fast, easy, and customizable.
 urls also lets you organize bookmarks by tags. Works only on ruby 1.9.
 
 ## Usage
