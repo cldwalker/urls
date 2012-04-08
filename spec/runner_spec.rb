@@ -40,7 +40,7 @@ describe 'Urls::Runner' do
       it 'adds a url with a tag' do
         urls 'add http://dodo.com -t bird'
         list_urls('bird -t')
-        stdout.must_equal "http://dodo.com"
+        stdout.must_equal "http://dodo.com\tbird"
       end
 
       it 'prints error for redundant submission' do
@@ -130,11 +130,11 @@ describe 'Urls::Runner' do
         urls 'add http://dodo.com -t bird'
         urls 'list bird -t'
         stdout.must_equal <<-STR.unindent
-          +-----------------+------+
-          | name            | desc |
-          +-----------------+------+
-          | http://dodo.com |      |
-          +-----------------+------+
+          +-----------------+------+------+
+          | name            | desc | tags |
+          +-----------------+------+------+
+          | http://dodo.com |      | bird |
+          +-----------------+------+------+
           1 row in set
         STR
       end

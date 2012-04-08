@@ -39,6 +39,13 @@ module Urls
     end
   end
 
+  def self.tagged_items
+    tag('items', capture: true).split("\n").inject({}) do |h,line|
+      url, tags = line.split("\t")
+      h.update url => tags
+    end
+  end
+
   module API
     # copy url(s) to clipboard, default uses osx
     def copy(urls)

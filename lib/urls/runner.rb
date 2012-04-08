@@ -77,6 +77,11 @@ module Urls
         choices = menu urls.map(&:name)
         Urls.copy choices
       else
+        urls = urls.map {|e| e.attributes }
+        if !(url_tags = Urls.tagged_items).empty?
+          urls.each {|e| e[:tags] = url_tags[e[:name]] || '' }
+          options[:fields] << :tags
+        end
         puts table(urls, options)
       end
     end
