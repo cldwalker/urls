@@ -43,6 +43,7 @@ Custom config and additional commands can be defined in ~/.urlsrc:
 # Change database adapter to postgres
 Urls.db = 'postgres://me:@localhost/my_db'
 
+# Add `urls my_command` with a force option
 class Urls::Runner
   option force: :boolean
   def my_command(options={})
@@ -56,9 +57,9 @@ To learn more about defining custom commands, [read about boson](https://github.
 ## Motivation
 [tagtree](https://github.com/cldwalker/tag-tree) and its shortcomings. While it had wicked querying
 capibilites, it was pretty unusable from the commandline. urls aims to change that and make this
-very usable.
+very usable, from the commandline and browser.
 
 ## TODO
 * Create additional plugin to give your urls a web interface
 * Create additional plugin that let's you add bookmarks from your browser
-* Allow tags to be indepent of `tag`
+* Allow tag storage be indepent of `tag`
