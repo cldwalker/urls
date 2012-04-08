@@ -20,7 +20,8 @@ Available commands:
 Options:
   -h, --help  Displays this help message
 
-$ urls add http://news.ycombinator.com time sink -t funny
+# Optional description comes after url
+$ urls add http://news.ycombinator.com time sink --tags funny
 urls: Added http://news.ycombinator.com
 
 $ urls list
