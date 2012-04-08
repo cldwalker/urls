@@ -185,7 +185,7 @@ describe 'Urls::Runner' do
     it 'can define a custom db' do
       with_rc "Urls.db = {adapter: 'sqlite'}" do
         urls
-        stderr.must_match /cannot load.*dm-sqlite-adapter/
+        stderr.must_match /`require':.*dm-sqlite-adapter/
       end
     end
   end
