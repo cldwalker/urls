@@ -22,6 +22,18 @@ class Url
     url.include?('://') ? url : "http://#{url}"
   end
 
+  def self.url_tags
+    @url_tags ||= Urls.tagged_items
+  end
+
+  def tags
+    tag_list.join(", ")
+  end
+
+  def tag_list
+    @tag_list ||= self.class.url_tags[name].to_s.split(/\s*,\s*/)
+  end
+
   before :save do
     self.name = self.class.urlify(name)
   end
