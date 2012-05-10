@@ -26,6 +26,7 @@ module Urls
   end
 
   def self.add_tag(url, tags)
+    Url.reset_url_tags
     tag('add', url, '--tags', *tags)
   end
 

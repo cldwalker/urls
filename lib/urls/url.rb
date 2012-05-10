@@ -26,6 +26,10 @@ class Url
     @url_tags ||= Urls.tagged_items
   end
 
+  def self.reset_url_tags
+    @url_tags = nil
+  end
+
   def self.tagged_with(tag)
     Url.all name: Urls.tagged_with(tag)
   end
