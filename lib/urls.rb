@@ -39,6 +39,10 @@ module Urls
     end
   end
 
+  def self.tagged_with(tag)
+    tag('list', tag, capture: true).split("\n")
+  end
+
   def self.tagged_items
     tag('items', capture: true).split("\n").inject({}) do |h,line|
       url, tags = line.split("\t")
